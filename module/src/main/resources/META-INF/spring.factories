@@ -1,0 +1,4 @@
+io.github.dbstarll.dubai.model.entity.Entity=\
+io.github.dbstarll.study.entity.StudyEntities
+io.github.dbstarll.dubai.model.service.Service=\
+io.github.dbstarll.study.service.StudyServices

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+  <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+    <property name="fileEncoding" value="UTF-8"/>
+    <property name="ignoreResourceNotFound" value="true"/>
+    <property name="locations">
+      <list>
+        <value>classpath:/property/*.properties</value>
+        <value>file:${HOME}/.study/study.conf</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="mongoClientFactory" class="io.github.dbstarll.dubai.model.mongodb.MongoClientFactory"/>
+
+  <bean id="mongoClient" factory-bean="mongoClientFactory" factory-method="createWithPojoCodecSplit">
+    <constructor-arg index="0" value="${study.mongodb.servers}"/>
+    <constructor-arg index="1" value="${study.mongodb.db}"/>
+    <constructor-arg index="2" value="${study.mongodb.credential}"/>
+  </bean>
+
+  <bean id="mongoDatabase" factory-bean="mongoClient" factory-method="getDatabase">
+    <constructor-arg value="${study.mongodb.db}"/>
+  </bean>
+
+  <bean class="io.github.dbstarll.dubai.model.spring.MongoCollectionBeanInitializer">
+    <property name="basePackages" value="com.yeecloud.dubai.study.entity"/>
+    <property name="mongoDatabaseBeanName" value="mongoDatabase"/>
+  </bean>
+
+  <bean id="implementalAutowirer" class="io.github.dbstarll.dubai.model.spring.SpringImplementalAutowirer"/>
+
+  <bean class="io.github.dbstarll.dubai.model.spring.ServiceBeanInitializer">
+    <property name="basePackages" value="com.yeecloud.dubai.study.service"/>
+  </bean>
+
+  <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+
+  <bean id="dictionaryApi" class="io.github.dbstarll.study.utils.DictionaryApi">
+    <constructor-arg index="0" value="${study.dictionary.api.key}"/>
+    <constructor-arg index="1" ref="objectMapper"/>
+  </bean>
+</beans>
