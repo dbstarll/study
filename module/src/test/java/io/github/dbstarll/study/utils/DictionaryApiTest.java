@@ -7,7 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-class DictionaryApiTest {
+/**
+ * 测试DictionaryApi
+ */
+public class DictionaryApiTest {
     private DictionaryApi api;
 
     @BeforeEach
