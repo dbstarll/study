@@ -11,130 +11,89 @@
 
   <properties>
     <project.mainClass>io.github.dbstarll.study.boot.Starter</project.mainClass>
+    <!-- module version -->
+    <version.utils-net-api>1.0.0</version.utils-net-api>
+    <version.utils-json>1.0.0</version.utils-json>
+    <version.utils-spring-boot>1.0.0</version.utils-spring-boot>
+    <version.utils-spring-security>1.0.0</version.utils-spring-security>
+    <!-- spring -->
     <version.spring-boot>2.5.3</version.spring-boot>
-    <version.spring-cloud>Edgware.SR6</version.spring-cloud>
+    <version.spring-session>2.5.1</version.spring-session>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-      <!-- Spring Boot -->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${version.spring-boot}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <!-- Spring Cloud -->
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${version.spring-cloud}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
-    <!-- spring boot -->
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-config</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-mongodb</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.mongodb</groupId>
-          <artifactId>mongodb-driver</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-thymeleaf</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-configuration-processor</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.session</groupId>
-      <artifactId>spring-session-data-redis</artifactId>
-    </dependency>
-    <!-- webjars -->
-    <!--    <dependency>-->
-    <!--      <groupId>org.webjars</groupId>-->
-    <!--      <artifactId>webjars-locator</artifactId>-->
-    <!--    </dependency>-->
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>jquery</artifactId>
-      <version>3.3.1-1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>jquery-ui</artifactId>
-      <version>1.12.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>bootstrap</artifactId>
-      <version>3.3.7-1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>bootstrap-datepicker</artifactId>
-      <version>1.8.0</version>
-    </dependency>
-    <!-- commons utils -->
-    <dependency>
-      <groupId>io.github.dbstarll</groupId>
-      <artifactId>utils-net-api</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.dbstarll</groupId>
-      <artifactId>utils-json</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.dbstarll</groupId>
-      <artifactId>utils-spring-boot</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.dbstarll</groupId>
-      <artifactId>utils-spring-security</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <!-- dubai modules -->
     <dependency>
       <groupId>io.github.dbstarll</groupId>
       <artifactId>study-module</artifactId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
+    <!-- commons utils -->
+    <dependency>
+      <groupId>io.github.dbstarll</groupId>
+      <artifactId>utils-net-api</artifactId>
+      <version>${version.utils-net-api}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.dbstarll</groupId>
+      <artifactId>utils-json</artifactId>
+      <version>${version.utils-json}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.dbstarll</groupId>
+      <artifactId>utils-spring-boot</artifactId>
+      <version>${version.utils-spring-boot}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.dbstarll</groupId>
+      <artifactId>utils-spring-security</artifactId>
+      <version>${version.utils-spring-security}</version>
+    </dependency>
+    <!-- spring -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>${version.spring-boot}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+      <version>${version.spring-boot}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.session</groupId>
+      <artifactId>spring-session-data-redis</artifactId>
+      <version>${version.spring-session}</version>
+    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>org.springframework.boot</groupId>-->
+    <!--      <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
+    <!--      <exclusions>-->
+    <!--        <exclusion>-->
+    <!--          <groupId>org.mongodb</groupId>-->
+    <!--          <artifactId>mongodb-driver</artifactId>-->
+    <!--        </exclusion>-->
+    <!--      </exclusions>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.springframework.boot</groupId>-->
+    <!--      <artifactId>spring-boot-configuration-processor</artifactId>-->
+    <!--      <optional>true</optional>-->
+    <!--    </dependency>-->
     <!-- other -->
     <dependency>
       <groupId>com.baidu.aip</groupId>
       <artifactId>java-sdk</artifactId>
-      <version>4.8.0</version>
-      <exclusions>
-        <exclusion>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
-        </exclusion>
-      </exclusions>
+      <version>4.16.2</version>
     </dependency>
     <dependency>
       <groupId>com.googlecode.soundlibs</groupId>
