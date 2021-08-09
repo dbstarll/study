@@ -24,8 +24,9 @@
 
   <properties>
     <project.git.project>study</project.git.project>
+    <!-- module version -->
     <version.dubai-module-user>1.0.0</version.dubai-module-user>
-    <version.jackson>2.13.0-rc1</version.jackson>
+    <version.jackson>2.12.4</version.jackson>
   </properties>
 
   <modules>
