@@ -25,7 +25,7 @@ import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 @Controller
-@RequestMapping(path = "/word", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/word", produces = MediaType.APPLICATION_JSON_VALUE)
 class WordController {
     @Autowired
     private WordService wordService;

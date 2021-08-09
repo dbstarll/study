@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping(path = "/english/exercise-book", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/english/exercise-book", produces = MediaType.APPLICATION_JSON_VALUE)
 class ExerciseBookController {
     @Autowired
     private ExerciseBookService exerciseBookService;

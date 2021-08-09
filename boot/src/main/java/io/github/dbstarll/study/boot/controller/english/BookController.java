@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(path = "/english/book", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/english/book", produces = MediaType.APPLICATION_JSON_VALUE)
 class BookController {
     @Autowired
     private ObjectMapper mapper;

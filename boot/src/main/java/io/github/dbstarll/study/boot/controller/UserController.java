@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map.Entry;
 
 @RestController
-@RequestMapping(path = "/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @PreAuthorize("hasAuthority('MODE_ADMIN')")
 class UserController {
     @Autowired

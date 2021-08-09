@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "/exercise", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/exercise", produces = MediaType.APPLICATION_JSON_VALUE)
 class ExerciseController {
     @GetMapping(path = "/{key}", produces = MediaType.TEXT_HTML_VALUE)
     String exercisePage(@PathVariable final ExerciseKey key, final Model model) {

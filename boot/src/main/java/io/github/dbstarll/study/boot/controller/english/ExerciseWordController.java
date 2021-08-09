@@ -39,7 +39,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 @RestController
-@RequestMapping(path = "/english/exercise-word", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/english/exercise-word", produces = MediaType.APPLICATION_JSON_VALUE)
 class ExerciseWordController {
     @Autowired
     private WordService wordService;

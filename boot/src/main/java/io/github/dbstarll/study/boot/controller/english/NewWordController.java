@@ -24,7 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/english/word", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/english/word", produces = MediaType.APPLICATION_JSON_VALUE)
 class NewWordController {
     @Autowired
     private WordService wordService;

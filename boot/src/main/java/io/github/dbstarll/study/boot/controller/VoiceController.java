@@ -30,7 +30,7 @@ class VoiceController {
     @Autowired
     private AipSpeech aipSpeech;
 
-    @PostMapping(path = "/asr", consumes = "audio/wav", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/asr", consumes = "audio/wav", produces = MediaType.APPLICATION_JSON_VALUE)
     Object asrWav(@RequestBody final byte[] wav) throws UnsupportedAudioFileException, IOException {
         final long now = System.currentTimeMillis();
         try {
@@ -40,7 +40,7 @@ class VoiceController {
         }
     }
 
-    @PostMapping(path = "/asr", consumes = "audio/mp3", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/asr", consumes = "audio/mp3", produces = MediaType.APPLICATION_JSON_VALUE)
     Object asrMp3(@RequestBody final byte[] mp3) throws UnsupportedAudioFileException, IOException {
         final long now = System.currentTimeMillis();
         final byte[] pcm = mp3ToPcm(mp3);
