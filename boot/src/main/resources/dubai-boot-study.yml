@@ -1,0 +1,25 @@
+spring:
+  http:
+    multipart:
+      maxFileSize: 10MB
+      fileSizeThreshold: 1MB
+      resolveLazily: true
+  thymeleaf:
+    cache: false
+    mode: HTML
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /js/**,/css/**
+dubai:
+  model:
+    cache:
+      expireMinutes: 5
+      heapSize: 1000
+study:
+  data:
+    root: ${study.home}/data
+  proxy:
+    trusted: 211.149.174.42

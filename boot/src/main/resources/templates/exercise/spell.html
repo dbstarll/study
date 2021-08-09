@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
+<head>
+    <title>拼写训练</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dictionary.css}"/>
+    <script type="text/javascript" th:src="@{/js/dictionary.js}"></script>
+    <script type="text/javascript" th:src="@{/js/exercise.js}"></script>
+    <script type="text/javascript">
+        function getWordChars(word, sort, ignoreCase) {
+            var chars = new Array();
+            for (var i = 0, size = word.length; i < size; i++) {
+                chars.push(true === ignoreCase ? word.charAt(i).toLowerCase() : word.charAt(i));
+            }
+            return sort ? chars.sort() : chars;
+        }
+
+        function replaceCharTipsByMove(data, dictionary, exercise, tips, spell, level) {
+            tips.empty().append($.html.span().addClass('help-block').text('请按照单词的字母顺序，在下列字母中依次选择'));
+            $.each(getWordChars(data.word.name, true), function (_, c) {
+                var item = $.html.button().addClass('btn btn-primary btn-lg').text(c).click(function () {
+                    if (item.parent().hasClass('exercise-spell-tips')) {
+                        spell.append(item);
+                        if (0 === tips.children('button').length) {
+                            spellFinished(data, dictionary, exercise, tips, spell, level);
+                        }
+                    } else {
+                        tips.append(item);
+                    }
+                });
+                tips.append(item);
+            });
+
+            spell.empty();
+        }
+
+        function upperCase(tips, btnShift) {
+            var active = $(this).hasClass('active');
+            if (active) {
+                btnShift.removeClass('active').attr('aria-pressed', false);
+            } else {
+                btnShift.addClass('active').attr('aria-pressed', true);
+            }
+            $.each($('.btn-primary', tips), function (_, c) {
+                var item = $(c);
+                item.text(active ? item.text().toLowerCase() : item.text().toUpperCase());
+            });
+        }
+
+        function replaceCharTipsWithPlaceHolder(data, dictionary, exercise, tips, spell, level, limit) {
+            tips.empty().append($.html.span().addClass('help-block').text('请按照单词的字母顺序，在下列字母中依次选择'));
+
+            var btnShiftLeft = $.html.button().addClass('btn btn-info btn-lg glyphicon glyphicon-arrow-up').attr('data-toggle',
+                'button');
+            var btnShiftRight = $.html.button().addClass('btn btn-info btn-lg glyphicon glyphicon-arrow-up').attr(
+                'data-toggle', 'button');
+            btnShiftLeft.click(function () {
+                upperCase.call(this, tips, btnShiftRight);
+            });
+            btnShiftRight.click(function () {
+                upperCase.call(this, tips, btnShiftLeft);
+            });
+
+            var chars = getWordChars(data.word.name, false, true);
+            $.each(['qwertyuiop', 'asdfghjkl', 'zxcvbnm'], function (idxLine, keys) {
+                var line = $.html.div();
+                $.each(getWordChars(keys), function (_, c) {
+                    var item = $.html.button().addClass('btn btn-lg').text(c);
+                    if (limit && chars.indexOf(c) < 0) {
+                        item.addClass('btn-default disabled');
+                    } else {
+                        item.addClass('btn-primary').click(function () {
+                            var unset = $('button.disabled', spell);
+                            unset.first().removeClass('btn-default disabled').addClass('btn-primary').text($(this).text());
+                            if (btnShiftLeft.hasClass('active')) {
+                                btnShiftLeft.click();
+                            }
+                            if (unset.length <= 1) {
+                                spellFinished(data, dictionary, exercise, tips, spell, level);
+                            }
+                        });
+                    }
+                    line.append(item);
+                });
+                if (idxLine == 2) {
+                    line.prepend(btnShiftLeft).append(btnShiftRight);
+                }
+                tips.append(line);
+            });
+
+            spell.empty();
+            $.each(chars, function (_, c) {
+                var item = $.html.button().addClass('btn btn-default btn-lg disabled').text('_').click(function () {
+                    item.removeClass('btn-primary').addClass('btn-default disabled').text('_');
+                });
+                spell.append(item);
+            });
+        }
+
+        function replaceCharTipsFree(data, dictionary, exercise, tips, spell, level, limit) {
+            tips.empty().append($.html.span().addClass('help-block').text('请按照单词的字母顺序，在下列字母中依次选择'));
+
+            var btnReset = $.html.button().addClass('btn btn-success btn-lg').text('清零').click(function () {
+                spell.empty();
+                $('button.btn-success', tips).attr('disabled', 'disabled');
+            }).attr('disabled', 'disabled');
+            var btnSubmit = $.html.button().addClass('btn btn-success btn-lg').text('答题').click(function () {
+                spellFinished(data, dictionary, exercise, tips, spell, level);
+            }).attr('disabled', 'disabled');
+            var btnShiftLeft = $.html.button().addClass('btn btn-info btn-lg glyphicon glyphicon-arrow-up').attr('data-toggle',
+                'button');
+            var btnShiftRight = $.html.button().addClass('btn btn-info btn-lg glyphicon glyphicon-arrow-up').attr(
+                'data-toggle', 'button');
+            btnShiftLeft.click(function () {
+                upperCase.call(this, tips, btnShiftRight);
+            });
+            btnShiftRight.click(function () {
+                upperCase.call(this, tips, btnShiftLeft);
+            });
+
+            var chars = getWordChars(data.word.name, false, true);
+            $.each(['qwertyuiop', 'asdfghjkl', 'zxcvbnm'], function (idxLine, keys) {
+                var line = $.html.div();
+                $.each(getWordChars(keys), function (_, c) {
+                    var item = $.html.button().addClass('btn btn-lg').text(c);
+                    if (limit && chars.indexOf(c) < 0) {
+                        item.addClass('btn-default disabled');
+                    } else {
+                        item.addClass('btn-primary').click(function () {
+                            $('button.btn-success', tips).removeAttr('disabled');
+                            spell.append($.html.button().addClass('btn btn-primary btn-lg').text($(this).text()).click(function () {
+                                $(this).remove();
+                                if ($('button', spell).length === 0) {
+                                    $('button.btn-success', tips).attr('disabled', 'disabled');
+                                }
+                            }));
+                            if (btnShiftLeft.hasClass('active')) {
+                                btnShiftLeft.click();
+                            }
+                        });
+                    }
+                    line.append(item);
+                });
+                if (idxLine == 2) {
+                    line.prepend(btnReset).append(btnSubmit);
+                } else if (idxLine == 1) {
+                    line.prepend(btnShiftLeft).append(btnShiftRight);
+                }
+                tips.append(line);
+            });
+
+            spell.empty();
+        }
+
+        function spellFinished(data, dictionary, exercise, tips, spell, level) {
+            var correct = true;
+            var spellWord = '';
+            $.each(spell.children('button'), function (idx, button) {
+                var c = $(button).removeClass('btn-primary').off("click").text();
+                spellWord += c;
+                if (c !== data.word.name.charAt(idx)) {
+                    correct = false;
+                    $(button).addClass('btn-danger');
+                } else {
+                    $(button).addClass('btn-success');
+                }
+            });
+
+            exerciseAnswer(data, dictionary, exercise, tips, spell, 'spell', level, spellWord, startExercise);
+        }
+
+        function startExercise(data, dictionary, exercise, tips, spell) {
+            var phonetic = $('.exercise-phonetic input:checked');
+
+            showWord(data.word, true, dictionary.addClass('hidden'));
+            $('.dictionary-spell .' + phonetic.data('other'), dictionary).addClass('hidden');
+            $('.dictionary-spell .' + phonetic.val() + ' .icon-sound', dictionary).click();
+
+            var level = getExerciseLevel(data.exerciseWord, 'spell');
+            replaceStars(level, $('.exercise-level', exercise), data.today, data.all);
+
+            var showMode = level % 3;
+            //0 - 显示音标，朗读键，释义
+            //1 - 显示朗读键，释义
+            //2 - 显示释义
+            switch (showMode) {
+                case 2:
+                    $('.dictionary-spell', dictionary).addClass('hidden');
+                case 1:
+                    $('.phonetic-symbol', dictionary).addClass('hidden');
+                default:
+                    $('.dictionary-title', dictionary).addClass('hidden');
+                    $('.dictionary-exchange', dictionary).addClass('hidden');
+                    dictionary.removeClass('hidden');
+            }
+
+            var spellMode = Math.floor(level / 3);
+            //0 - 提示单词字母供选择；要求重新组合所有字母拼写出单词
+            //1 - 提示单词字母去重后供选择；提示单词字符数量；要求从备选字母中挑选拼写出单词
+            //2 - 提示单词字母去重后供选择；不提示单词字符数量；要求从备选字母中挑选拼写出单词
+            //3 - 不提示单词字母；提示单词字符数量；要求拼写出单词
+            //4 - 无任何提示；要求拼写出单词
+            switch (spellMode) {
+                case 1:
+                    replaceCharTipsWithPlaceHolder(data, dictionary, exercise, tips, spell, level, true);
+                    break;
+                case 2:
+                    replaceCharTipsFree(data, dictionary, exercise, tips, spell, level, true);
+                    break;
+                case 3:
+                    replaceCharTipsWithPlaceHolder(data, dictionary, exercise, tips, spell, level, false);
+                    break;
+                case 4:
+                    replaceCharTipsFree(data, dictionary, exercise, tips, spell, level, false);
+                    break;
+                default:
+                    replaceCharTipsByMove(data, dictionary, exercise, tips, spell, level);
+            }
+        }
+
+        function nextExercise(bookId, dictionary, exercise, tips, spell) {
+            $.getJSON(contextUrl('/exercise-word/' + bookId + '/spell/exercise')).done(function (data) {
+                startExercise(data, dictionary, exercise, tips, spell);
+            }).fail(function (jqxhr, textStatus, error) {
+                if (404 === jqxhr.status) {
+                    noMoreExercise(tips, spell);
+                }
+            });
+        }
+
+        $(function () {
+            var dictionary = $('#dictionary');
+            var exercise = $('#exercise');
+            var tips = $('.exercise-spell-tips', exercise);
+            var spell = $('.exercise-spell', exercise);
+
+            $('.exercise-phonetic input[name=phonetic]').change(function () {
+                audioPauseAll();
+                var phonetic = $(this);
+                $('.dictionary-wrap .dictionary-spell .' + phonetic.val()).removeClass('hidden');
+                $('.dictionary-wrap .dictionary-spell .' + phonetic.data('other')).addClass('hidden');
+                $('.dictionary-spell .' + phonetic.val() + ' .icon-sound', dictionary).click();
+            });
+            $('.exercise-phonetic input[name=phonetic]:checked').parent().addClass('active');
+
+            nextExercise($('#bookId').data("book-id"), dictionary, exercise, tips, spell);
+        });
+    </script>
+    <style type="text/css">
+        .exercise-spell-tips .btn {
+            margin: 2px;
+        }
+
+        .exercise-spell button {
+
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="bookId" th:data-book-id="${bookId}"></div>
+    <audio class="right" th:src="@{/audio/right.mp3}" preload="auto"></audio>
+    <audio class="wrong" th:src="@{/audio/wrong.mp3}" preload="auto"></audio>
+    <div id="exercise" class="row">
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <div class="row">
+                <h3>
+                    <span class="glyphicon glyphicon-pencil"/> 根据下面的释义来完成单词的拼写
+                </h3>
+                <div class="help-block exercise-phonetic btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary"> <input type="radio" name="phonetic" value="en" data-other='am'>
+                        英式发音
+                    </label> <label class="btn btn-primary"> <input type="radio" name="phonetic" value="am"
+                                                                    data-other='en'
+                                                                    checked> 美式发音
+                </label>
+                </div>
+                <div class="help-block exercise-level"></div>
+            </div>
+            <div class="row exercise-spell-tips"></div>
+            <div class="row">
+                <hr/>
+            </div>
+            <div class="row exercise-spell"></div>
+        </div>
+    </div>
+    <div id="dictionary" class="row output-mod dictionary-wrap dictionary-wrap-f result-section hidden">
+        <div class="col-md-6 col-md-offset-3 simple-dict simple-dict-f simple-dict-f-nimg">
+            <div class="output-bd clearfix" dir="ltr">
+                <div class="dictionary-output">
+                    <div class="dictionary-title"></div>
+                    <div class="dictionary-spell"></div>
+                    <div class="dictionary-comment"></div>
+                </div>
+                <div class="dictionary-exchange"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

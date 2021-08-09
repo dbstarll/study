@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
+<head>
+    <title>系统词汇表</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dictionary.css}"/>
+    <script type="text/javascript" th:src="@{/js/dictionary.js}"></script>
+    <script type="text/javascript">
+        function addWord(word, sync, result) {
+            $.ajax(contextUrl('/word/' + word), {
+                dataType: "json",
+                method: 'PUT',
+                async: !sync
+            }).done(function (data) {
+                showWord(data);
+                if (result) {
+                    result.done = undefined !== data.id;
+                }
+            }).fail(function () {
+                if (result) {
+                    result.done = false;
+                }
+            });
+        }
+
+        function addWordBatch(batch) {
+            var btn = $(this).attr('disabled', 'disabled');
+            btn.text('正在检测新词');
+            $.ajax(contextUrl('/word'), {
+                dataType: "json",
+                method: 'PUT',
+                contentType: 'text/plain',
+                data: batch.val()
+            }).done(function (data) {
+                var scan = data.total;
+                var total = data.summarySize;
+                var done = 0;
+                var fail = 0;
+                btn.text('输入词汇：' + scan + '，需导入新词：' + total);
+                batch.val('');
+                $.each(data.summaries, function (_, word) {
+                    var result = {};
+                    addWord(word, true, result);
+                    if (result.done) {
+                        done++;
+                    } else {
+                        if (fail++ === 0) {
+                            batch.val(word);
+                        } else {
+                            batch.val(batch.val() + ',' + word);
+                        }
+                    }
+                    btn.text('输入词汇：' + scan + '，需导入新词：' + (done + fail) + '/' + total + '，导入成功：' + done + '，导入失败：' + fail);
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                btn.text('批量导入失败：' + textStatus);
+            }).always(function () {
+                btn.removeAttr('disabled');
+            });
+        }
+
+        function searchWord(query, querySummary) {
+            if ('' !== query) {
+                $.getJSON(contextUrl('/word/' + query + '/true'), function (data) {
+                    querySummary.empty();
+
+                    var header = $.html.li().addClass('dropdown-header').append('匹配到').append(
+                        $.html.span().addClass('text-primary').append(data.total)).append('项');
+                    if (data.summarySize !== data.total) {
+                        header.append('，显示前').append($.html.span().addClass('text-primary').append(data.summarySize)).append('项');
+                    }
+                    querySummary.append(header);
+
+                    var match = false;
+                    if (data.total > 0) {
+                        $.each(data.summaries, function (_, word) {
+                            if (query === word.name) {
+                                match = true;
+                            }
+                            var item = $.html.a().append(word.name);
+                            $.each(word.parts, function (idx, part) {
+                                item.append('　').append(
+                                    $.html.span().addClass('text-muted small').append(parsePartKey(part.key)).append(' ').append(
+                                        part.means[0]));
+                            });
+                            querySummary.append($.html.li().append(item).click(function () {
+                                showWord(word);
+                            }));
+                        });
+                    }
+                    if (!match) {
+                        var item = $.html.a().append('将[').append($.html.span({}, query).addClass('text-primary')).append(
+                            ']添加到系统词汇表？');
+                        querySummary.append($.html.li().append(item).click(function () {
+                            addWord(query);
+                        }));
+                    }
+
+                    querySummary.show();
+                });
+            }
+        }
+
+        $(function () {
+            // 搜索摘要的宽度设置成与搜索框宽度一致
+            var querySummary = $('#querySummary').click(function () {
+                querySummary.hide();
+            });
+            // 延时搜索
+            var delaySearch;
+            var query = $('#query').keyup(function () {
+                if ('number' === typeof delaySearch) {
+                    clearTimeout(delaySearch);
+                }
+                delaySearch = setTimeout(searchWord, 1000, $(this).val(), querySummary);
+            }).focusin(function () {
+                if (querySummary.children().length > 0) {
+                    querySummary.show();
+                } else {
+                    searchWord($(this).val(), querySummary);
+                }
+            }).focusout(function () {
+                setTimeout(function () {
+                    querySummary.hide();
+                }, 300);
+            });
+            // 查询总系统词汇数量
+            $.getJSON(contextUrl('/word'), function (data) {
+                $('#totalWords').text(data.total);
+                querySummary.width(query.innerWidth());
+            });
+            // 批量提交新词
+            var batch = $('#batch').keyup(function () {
+                $('#batchSubmit').text('开始导入');
+            });
+            $('#batchSubmit').click(function () {
+                addWordBatch.call(this, batch);
+            });
+        });
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        在<span id="totalWords" class="text-primary"></span>个系统词汇中搜索 <span
+                            class="glyphicon glyphicon-search"/>
+                    </div>
+                    <input id="query" type="text" class="form-control" autocomplete="off" placeholder="请输入搜索关键字"/>
+                    <ul id="querySummary" class="dropdown-menu pull-right"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group">
+                <textarea id="batch" maxlength="100000" rows="3" class="form-control"
+                          placeholder="请输入批量导入的单词"></textarea>
+                <button id="batchSubmit" type="button" class="btn btn-primary">开始导入</button>
+            </div>
+        </div>
+    </div>
+    <div id="dictionary" class="row output-mod dictionary-wrap dictionary-wrap-f result-section hidden">
+        <div class="col-md-6 col-md-offset-3 simple-dict simple-dict-f simple-dict-f-nimg">
+            <div class="output-bd clearfix" dir="ltr">
+                <div class="dictionary-output">
+                    <div class="dictionary-title"></div>
+                    <div class="dictionary-spell"></div>
+                    <div class="dictionary-comment"></div>
+                </div>
+                <div class="dictionary-exchange"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

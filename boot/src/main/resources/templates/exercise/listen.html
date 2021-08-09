@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
+<head>
+    <title>听力训练</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dictionary.css}"/>
+    <script type="text/javascript" th:src="@{/js/dictionary.js}"></script>
+    <script type="text/javascript" th:src="@{/js/exercise.js}"></script>
+    <script type="text/javascript">
+        function showSpellWord(word, phonetic, level) {
+            var dic = div('dictionary-wrap hidden').append(
+                div('simple-dict').append(
+                    div('dictionary-output').append(div('dictionary-title')).append(div('dictionary-spell'))));
+            showWord(word, true, dic);
+            $('.dictionary-spell .' + phonetic.data('other'), dic).addClass('hidden');
+
+            switch (level) {
+                case 0:
+                    $('.phonetic-symbol', dic).addClass('hidden');
+                    break;
+                case 2:
+                    $('.phonetic-transcription a', dic).addClass('hidden');
+                    break;
+                default:
+                    $('.dictionary-spell', dic).addClass('hidden');
+            }
+
+            return $.html.a().addClass('btn btn-primary').append(dic.removeClass('hidden'));
+        }
+
+        function replaceCharTips(data, dictionary, exercise, tips, spell, level, phonetic) {
+            tips.empty();
+            var dic = div('dictionary-wrap hidden').append(div('dictionary-spell'));
+            tips.append(showWord(data.word, true, dic));
+            $('.dictionary-spell .' + phonetic.data('other'), dic).addClass('hidden');
+
+            //难度设置
+            //0 - 显示单词，朗读键；提示音标，朗读键
+            //1 - 显示单词；提示音标，朗读键
+            //2 - 显示单词，音标；提示朗读键
+            //3 - 显示单词；提示朗读键
+            //4 - 从练习册内，尾字母相同的单词中搜索
+            //5 - 从练习册内，首字母相同的单词中搜索
+            //6 - 从练习册内，首字母相同且尾字母相同的单词中搜索
+            //7 - 从练习册内，该单词的变化词中搜索
+            //8 - 从所有词汇中，尾字母相同的单词中搜索
+            //9 - 从所有词汇中，首字母相同的单词中搜索
+            //10 - 从所有词汇中，首字母相同且尾字母相同的单词中搜索
+            switch (level) {
+                case 0:
+                case 1:
+                    break;
+                default:
+                    $('.phonetic-symbol', dic).addClass('hidden');
+            }
+
+            $('.dictionary-spell .' + phonetic.val() + ' .icon-sound', dic.removeClass('hidden')).click();
+
+            var finish = function () {
+                spellFinished.call(this, data, dictionary, exercise, tips, spell, level);
+            };
+
+            spell.empty().append(showSpellWord(data.word, phonetic, level).click(finish));
+            var rnd = $.random() % (data.interferes.length + 1);
+            $.each(data.interferes, function (idx, word) {
+                if (idx < rnd) {
+                    spell.prepend(showSpellWord(word, phonetic, level).click(finish));
+                } else {
+                    spell.append(showSpellWord(word, phonetic, level).click(finish));
+                }
+            });
+        }
+
+        function spellFinished(data, dictionary, exercise, tips, spell, level) {
+            var spellWord = $('.dictionary-title h3.strong', $(this)).text();
+            var correct = data.word.name === spellWord;
+
+            var that = this;
+            $.each(spell.children('a'), function (idx, button) {
+                if (!correct && button === that) {
+                    $(button).off("click").removeClass('btn-primary').addClass(correct ? 'btn-success' : 'btn-danger');
+                } else {
+                    $(button).remove();
+                }
+            });
+
+            exerciseAnswer(data, dictionary, exercise, tips, spell, 'listen', level, spellWord, startExercise);
+        }
+
+        function startExercise(data, dictionary, exercise, tips, spell) {
+            var phonetic = $('.exercise-phonetic input:checked');
+
+            showWord(data.word, true, dictionary.addClass('hidden'));
+            $('.simple-dict', dictionary).addClass('hidden');
+            dictionary.removeClass('hidden');
+
+            var level = getExerciseLevel(data.exerciseWord, 'listen');
+            replaceStars(level, $('.exercise-level', exercise), data.today, data.all);
+
+            replaceCharTips(data, dictionary, exercise, tips, spell, level, phonetic);
+        }
+
+        function nextExercise(bookId, dictionary, exercise, tips, spell) {
+            $.getJSON(contextUrl('/exercise-word/' + bookId + '/listen/exercise')).done(function (data) {
+                startExercise(data, dictionary, exercise, tips, spell);
+            }).fail(function (jqxhr, textStatus, error) {
+                if (404 === jqxhr.status) {
+                    noMoreExercise(tips, spell);
+                }
+            });
+        }
+
+        $(function () {
+            var dictionary = $('#dictionary');
+            var exercise = $('#exercise');
+            var tips = $('.exercise-spell-tips', exercise);
+            var spell = $('.exercise-spell', exercise);
+
+            $('.exercise-phonetic input[name=phonetic]').change(function () {
+                audioPauseAll();
+                var phonetic = $(this);
+                $('.dictionary-wrap .dictionary-spell .' + phonetic.val()).removeClass('hidden');
+                $('.dictionary-wrap .dictionary-spell .' + phonetic.data('other')).addClass('hidden');
+                $('.dictionary-spell .' + phonetic.val() + ' .icon-sound', tips).click();
+            });
+            $('.exercise-phonetic input[name=phonetic]:checked').parent().addClass('active');
+
+            nextExercise($('#bookId').data("book-id"), dictionary, exercise, tips, spell);
+        });
+    </script>
+    <style type="text/css">
+        .exercise-spell-tips .btn {
+            margin: 2px;
+        }
+
+        .exercise-spell .btn {
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="bookId" th:data-book-id="${bookId}"></div>
+    <audio class="right" th:src="@{/audio/right.mp3}" preload="auto"></audio>
+    <audio class="wrong" th:src="@{/audio/wrong.mp3}" preload="auto"></audio>
+    <div id="exercise" class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+            <div class="row">
+                <h3>
+                    <span class="glyphicon glyphicon-headphones"/> 根据听到的录音来选择正确的单词
+                </h3>
+                <div class="help-block exercise-phonetic btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary"> <input type="radio" name="phonetic" value="en" data-other='am'>
+                        英式发音
+                    </label> <label class="btn btn-primary"> <input type="radio" name="phonetic" value="am"
+                                                                    data-other='en'
+                                                                    checked> 美式发音
+                </label>
+                </div>
+                <div class="help-block exercise-level"></div>
+            </div>
+            <div class="row exercise-spell-tips"></div>
+            <div class="row">
+                <hr/>
+            </div>
+            <div class="row exercise-spell"></div>
+        </div>
+    </div>
+    <div id="dictionary" class="row output-mod dictionary-wrap dictionary-wrap-f result-section hidden">
+        <div class="col-md-6 col-md-offset-3 simple-dict simple-dict-f simple-dict-f-nimg">
+            <div class="output-bd clearfix" dir="ltr">
+                <div class="dictionary-output">
+                    <div class="dictionary-title"></div>
+                    <div class="dictionary-spell"></div>
+                    <div class="dictionary-comment"></div>
+                </div>
+                <div class="dictionary-exchange"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

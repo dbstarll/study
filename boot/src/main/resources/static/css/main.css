@@ -1,0 +1,357 @@
+form {
+    margin-bottom: 0px;
+}
+
+.form-group {
+    /*max-width: 940px;*/
+
+}
+
+.main-viewport {
+    position: absolute;
+    width: 100%;
+    top: 51px;
+    bottom: 38px;
+}
+
+.main-viewport::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: #c3c3c3;
+    cursor: pointer;
+}
+
+.main-viewport::-webkit-scrollbar {
+    width: 50px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.main-body {
+    position: absolute;
+    width: auto;
+    top: 0px;
+    left: 50px;
+    bottom: 0px;
+    right: 0px;
+    min-width: 1186px;
+    overflow-x: auto;
+    overflow-y: auto;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.main-header {
+    height: 80px;
+    box-shadow: 0px 1px 3px #999;
+    background-color: #fff;
+}
+
+.entity .row {
+    margin-bottom: 10px;
+}
+
+.entity label {
+    text-align: right;
+}
+
+.nmb {
+    margin-bottom: 0px !important;
+}
+
+.ml10 {
+    margin-left: 10px !important;
+}
+
+.mr15 {
+    margin-right: 15px !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.bg-whitesmoke {
+    background-color: whitesmoke !important;
+}
+
+.main-menu {
+    height: 100%;
+    width: 50px;
+    background-color: #1688d4;
+    position: absolute;
+    top: 0px;
+    bottom: 70px;
+    overflow-x: hidden;
+}
+
+.main-menu .panel {
+    background-color: #1688d4;
+    border: none;
+    margin-top: 0px !important;
+}
+
+.main-menu .glyphicon-triangle-right {
+    font-size: 10px;
+    top: 0px !important;
+}
+
+.main-menu .panel-heading {
+    padding: 0px;
+    background-color: #1688d4 !important;
+    background-image: none;
+}
+
+.main-menu .panel-body {
+    padding: 0px;
+}
+
+.main-menu .menu-toggle {
+    color: white;
+    text-align: center;
+    padding: 5px 0px;
+    cursor: pointer;
+}
+
+.main-menu-expand {
+    width: 180px !important;
+}
+
+.main-menu-expand span.title {
+    visibility: visible !important;
+}
+
+.main-menu ul, .main-menu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-menu .glyphicon {
+    top: 2px;
+}
+
+.main-menu a {
+    color: white;
+    text-decoration: none;
+}
+
+.main-menu a {
+    display: block;
+    padding: 10px 20px;
+    border-top: 1px solid #45a0dd;
+    border-bottom: 1px solid #197cc7;
+    white-space: nowrap;
+    font-size: 14px;
+    color: white;
+    height: 40px;
+}
+
+.main-menu .panel-body, .main-menu .panel-body a {
+    background-color: #1c75ba;
+    border: none;
+}
+
+.main-menu .panel-body a.active {
+    color: cyan;
+}
+
+.main-menu .panel-body a:hover {
+    background-color: #238cff;
+}
+
+.main-menu span.title {
+    margin-left: 10px;
+    visibility: hidden;
+}
+
+.main-footer {
+    padding: 10px 0px;
+    min-height: 15px;
+}
+
+.breadcrumb {
+    background-color: #f7fcff;
+    border-bottom: 1px solid #bce1f8;
+    border-radius: 0;
+    padding: 15px;
+    font-size: 15px;
+}
+
+.panel .breadcrumb {
+    margin-bottom: 0px;
+}
+
+.btn-circle {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0px;
+    margin: 0px 5px;
+    padding: 0px;
+}
+
+.btn-circle .glyphicon {
+    top: 0px;
+}
+
+.btn-circle .glyphicon-plus {
+    font-size: 16px;
+    left: 1px;
+}
+
+.table thead {
+    background-color: #ebf0fa;
+}
+
+ol.step {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid #dedede;
+    border-radius: 3px;
+    max-width: 940px;
+}
+
+ol.step li {
+    display: inline-block;
+    padding-right: 13px;
+    width: 180px;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-image: url(../images/step-next.png);
+}
+
+ol.step li.step-last div {
+    color: #64a9fe;
+}
+
+ol.step li.step-last div span {
+    background-color: #64a9fe;
+}
+
+ol.step li.step-prev {
+    background-image: url(../images/step-inverse.png);
+}
+
+ol.step li.step-active {
+    background-image: url(../images/step.png);
+}
+
+ol.step li.step-next {
+    background-image: url(../images/step.png);
+}
+
+ol.step li div {
+    display: inline-block;
+    padding: 8px 20px;
+    width: 100%;
+    color: #b3b3b3;
+    background-color: #fefefe;
+}
+
+ol.step li.step-active div {
+    background-color: #64a9fe;
+    color: white;
+}
+
+ol.step li span {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: #eaeaea;
+    margin-right: 10px;
+    color: white;
+}
+
+ol.step li.step-active span {
+    background-color: white;
+    color: #64a9fe;
+}
+
+.control-label .require {
+    color: red;
+    position: absolute;
+}
+
+a {
+    cursor: pointer;
+}
+
+.text-red {
+    color: red;
+}
+
+.text-green {
+    color: lightgreen;
+}
+
+.text-yellow {
+    color: orange;
+}
+
+pre {
+    max-height: 400px;
+    overflow-y: scroll;
+    white-space: pre-wrap;
+    background-color: #F8F9Fc !important;
+}
+
+.requiretip {
+    border: 1px solid red;
+    background: rgb(255, 255, 153);
+}
+
+.glyphicon-th, .opt-clear, .glyphicon-refresh, .pointer {
+    cursor: pointer;
+}
+
+.nav-tabs > li > a {
+    border: 0px !important;
+}
+
+.btn-mr-p10 > .btn {
+    margin-right: 10%;
+}
+
+td.right {
+    text-align: right;
+}
+
+th.sort {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.required_label:after {
+    color: red;
+    content: "*";
+    position: absolute;
+}
+
+.annotation_style {
+    color: #707070;
+    font-size: 12px;
+    line-height: 1.66666666666667;
+    margin: 5px 0 0 0;
+}
+
+.advance-select {
+    display: inline-block;
+}
+
+.advance-select .chosen-container-single {
+    width: 115px !important;
+    text-align: center;
+}
+
+.advance-select .chosen-container-single .chosen-single {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    border-radius: 3px;
+    color: #555;
+}

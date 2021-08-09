@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
+<head>
+    <title>发音训练</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dictionary.css}"/>
+    <script type="text/javascript" th:src="@{/js/dictionary.js}"></script>
+    <script type="text/javascript" th:src="@{/js/exercise.js}"></script>
+    <script type="text/javascript" th:src="@{/recorder/recorder.wav.min.js}"></script>
+    <script type="text/javascript">
+        function startRecord(recorder, help) {
+            if (Recorder.IsOpen()) {
+                help.text('录音中 - 等待上次录制完成');
+            } else {
+                var btn = this;
+                recorder.open(function () {
+                    help.text('开始录音');
+                    btn.removeAttr('disabled').text('录音中。。。再次点击结束录音');
+                    recorder.start();
+
+                    btn.data('delayStop', setTimeout(function () {
+                        btn.click();
+                    }, 3000));
+                }, function (errMsg) {
+                    help.text("无法录音：" + errMsg);
+                    btn.removeAttr('disabled').text('请重新录音');
+                });
+            }
+        }
+
+        function stopRecord(recorder, help, asr, finish) {
+            if (Recorder.IsOpen()) {
+                var btn = this;
+                recorder.stop(function (blob, duration) {
+                    help.text('完成录音：时长：' + (duration / 1000) + ' 秒，大小：' + blob.size);
+                    recorder.close();
+
+                    checkAsr.call(btn, blob, asr, finish);
+                }, function (errMsg) {
+                    help.text("录音失败：" + errMsg);
+                    btn.removeAttr('disabled').text('请重新录音');
+                });
+            } else {
+                help.text("请开始录音");
+            }
+        }
+
+        function checkAsr(blob, asr, finish) {
+            var audio = $.html.set('<audio/>', {
+                preload: 'none',
+                src: URL.createObjectURL(blob)
+            }).get(0);
+            asr.empty().append(audio).append($.html.button().addClass('btn btn-primary').text('回放').click(function () {
+                audio.play();
+            })).append(' ');
+
+            var btn = this;
+            $.ajax(contextUrl('/voice/asr'), {
+                method: 'POST',
+                dataType: "json",
+                data: blob,
+                processData: false,
+                contentType: false
+            }).done(
+                function (data) {
+                    if (0 === data.err_no) {
+                        asr.append($.html.span().text('识别结果：')).append(
+                            $.html.button().addClass('btn btn-primary asr-result').text(data.result));
+                        finish(data.result[0]);
+                    } else {
+                        asr.append($.html.span().text('识别失败：' + data.err_msg));
+                    }
+                    btn.removeAttr('disabled').text('请重新录音');
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                asr.append($.html.span().text('识别失败：' + jqXHR));
+                btn.removeAttr('disabled').text('请重新录音');
+            });
+        }
+
+        function replaceCharTips(data, dictionary, exercise, tips, spell, level) {
+            var help = div('help-block');
+            var asr = div();
+            spell.empty().append(asr);
+
+            var finish = function (spellWord) {
+                spellFinished.call(this, data, dictionary, exercise, tips, spell, level, spellWord);
+            };
+
+            var recorder = Recorder({
+                type: "wav",
+                onProcess: function (buffer, powerLevel, bufferDuration) {
+                    help.text('录音中 - 音量：' + powerLevel + '，时长：' + (bufferDuration / 1000) + ' 秒');
+                }
+            });
+
+            tips.empty().append($.html.button().addClass('btn btn-primary').text('开始录音').click(function () {
+                var btn = $(this).attr('disabled', 'disabled');
+                if (Recorder.IsOpen()) {
+                    var delayStop = btn.data('delayStop');
+                    if ('number' === typeof delayRecord) {
+                        btn.removeData('delayStop');
+                        clearTimeout(delayStop);
+                    }
+                    stopRecord.call(btn, recorder, help, asr, finish);
+                } else {
+                    startRecord.call(btn, recorder, help);
+                }
+            })).append(help);
+        }
+
+        function spellFinished(data, dictionary, exercise, tips, spell, level, spellWord) {
+            var correct = data.word.name === spellWord;
+
+            $('button.asr-result', spell).removeClass('btn-primary').addClass(correct ? 'btn-success' : 'btn-danger');
+
+            exerciseAnswer(data, dictionary, exercise, tips, spell, 'read', level, spellWord, startExercise);
+        }
+
+        function startExercise(data, dictionary, exercise, tips, spell) {
+            var phonetic = $('.exercise-phonetic input:checked');
+
+            showWord(data.word, true, dictionary.addClass('hidden'));
+            $('.dictionary-spell .' + phonetic.data('other'), dictionary).addClass('hidden');
+            $('.dictionary-spell .' + phonetic.val() + ' .icon-sound', dictionary).click();
+            dictionary.removeClass('hidden');
+
+            var level = getExerciseLevel(data.exerciseWord, 'read');
+            replaceStars(level, $('.exercise-level', exercise), data.today, data.all);
+
+            replaceCharTips(data, dictionary, exercise, tips, spell, level);
+        }
+
+        function nextExercise(bookId, dictionary, exercise, tips, spell) {
+            $.getJSON(contextUrl('/exercise-word/' + bookId + '/read/exercise')).done(function (data) {
+                startExercise(data, dictionary, exercise, tips, spell);
+            }).fail(function (jqxhr, textStatus, error) {
+                if (404 === jqxhr.status) {
+                    noMoreExercise(tips, spell);
+                }
+            });
+        }
+
+        $(function () {
+            var dictionary = $('#dictionary');
+            var exercise = $('#exercise');
+            var tips = $('.exercise-spell-tips', exercise);
+            var spell = $('.exercise-spell', exercise);
+
+            $('.exercise-phonetic input[name=phonetic]').change(function () {
+                audioPauseAll();
+                var phonetic = $(this);
+                $('.dictionary-wrap .dictionary-spell .' + phonetic.val()).removeClass('hidden');
+                $('.dictionary-wrap .dictionary-spell .' + phonetic.data('other')).addClass('hidden');
+                $('.dictionary-spell .' + phonetic.val() + ' .icon-sound', dictionary).click();
+            });
+            $('.exercise-phonetic input[name=phonetic]:checked').parent().addClass('active');
+
+            nextExercise($('#bookId').data("book-id"), dictionary, exercise, tips, spell);
+        });
+    </script>
+    <style type="text/css">
+        .exercise-spell-tips .btn {
+            margin: 2px;
+        }
+
+        .exercise-spell .btn {
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="bookId" th:data-book-id="${bookId}"></div>
+    <audio class="right" th:src="@{/audio/right.mp3}" preload="auto"></audio>
+    <audio class="wrong" th:src="@{/audio/wrong.mp3}" preload="auto"></audio>
+    <div id="exercise" class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+            <div class="row">
+                <h3>
+                    <span class="glyphicon glyphicon-volume-up"/> 根据下面的释义来朗读单词
+                </h3>
+                <div class="help-block exercise-phonetic btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary"> <input type="radio" name="phonetic" value="en" data-other='am'>
+                        英式发音
+                    </label> <label class="btn btn-primary"> <input type="radio" name="phonetic" value="am"
+                                                                    data-other='en'
+                                                                    checked> 美式发音
+                </label>
+                </div>
+                <div class="help-block exercise-level"></div>
+            </div>
+            <div class="row exercise-spell-tips"></div>
+            <div class="row">
+                <hr/>
+            </div>
+            <div class="row exercise-spell"></div>
+        </div>
+    </div>
+    <div id="dictionary" class="row output-mod dictionary-wrap dictionary-wrap-f result-section hidden">
+        <div class="col-md-6 col-md-offset-3 simple-dict simple-dict-f simple-dict-f-nimg">
+            <div class="output-bd clearfix" dir="ltr">
+                <div class="dictionary-output">
+                    <div class="dictionary-title"></div>
+                    <div class="dictionary-spell"></div>
+                    <div class="dictionary-comment"></div>
+                </div>
+                <div class="dictionary-exchange"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

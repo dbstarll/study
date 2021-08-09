@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <header th:fragment="header">
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <img class="navbar-brand" style="padding: 0px;" alt="Logo" th:src="@{/images/logo_head.png}"/>
+                        <span
+                                class="navbar-brand">玲琳爱学
+                        </span>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#navbar-collapse-1"
+                                aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li th:class="${#httpServletRequest.servletPath=='/word'?'active':''}">
+                                <a th:href="@{/word}">
+                                    <span
+                                            class='glyphicon glyphicon-font'></span>
+                                    系统词汇表
+                                </a>
+                            </li>
+                            <li th:class="${#httpServletRequest.servletPath=='/exercise/listen'?'active':''}">
+                                <a
+                                        th:href="@{/exercise/listen}">
+                                    <span class='glyphicon glyphicon-headphones'></span>
+                                    听力练习
+                                </a>
+                            </li>
+                            <li th:class="${#httpServletRequest.servletPath=='/exercise/spell'?'active':''}">
+                                <a
+                                        th:href="@{/exercise/spell}">
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                    拼写练习
+                                </a>
+                            </li>
+                            <li th:class="${#httpServletRequest.servletPath=='/exercise/read'?'active':''}">
+                                <a
+                                        th:href="@{/exercise/read}">
+                                    <span class='glyphicon glyphicon-volume-up'></span>
+                                    发音练习
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    <span
+                                            class="small">代玲琳
+                                    </span>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header">我的身份</li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="glyphicon glyphicon-piggy-bank"></span>
+                                            小猪猪
+                                        </a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="glyphicon glyphicon-lock"></span>
+                                            修改密码
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="glyphicon glyphicon-off"></span>
+                                            退出
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </body>
+</html>

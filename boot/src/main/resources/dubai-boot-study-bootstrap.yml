@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: dubai-boot-study
+  cloud:
+    config:
+      name: ${spring.config.name}
+      failFast: true
+  profiles:
+    include: logging,tomcat,mongodb,redis

@@ -1,0 +1,422 @@
+.icon-sound {
+    background-repeat: no-repeat;
+    background-image: url(//fanyi.bdstatic.com/static/translation/sprite/images/normal/index-sc413d90635_65ba9b0.png);
+    background-position: 0 -1046px;
+    height: 17px;
+    width: 19px
+}
+
+@media ( min--moz-device-pixel-ratio: 1.3) , ( -o-min-device-pixel-ratio: 2.6 / 2) , ( -webkit-min-device-pixel-ratio: 1.3) , (
+min-device-pixel-ratio: 1.3) , ( -o-min-device-pixel-ratio: 13/10) , ( min-resolution: 1.3dppx) {
+    .icon-sound {
+        background-image: url(//fanyi.bdstatic.com/static/translation/sprite/images/retina/index-sbe182eada5_be938d0.png);
+        background-position: 0 -1052px;
+        height: 17px;
+        width: 19px;
+        -moz-background-size: 122px auto;
+        background-size: 122px auto
+    }
+}
+
+.icon-sound:hover {
+    background-repeat: no-repeat;
+    background-image: url(//fanyi.bdstatic.com/static/translation/sprite/images/normal/index-sc413d90635_65ba9b0.png);
+    background-position: 0 -1073px;
+    height: 17px;
+    width: 19px
+}
+
+@media ( min--moz-device-pixel-ratio: 1.3) , ( -o-min-device-pixel-ratio: 2.6 / 2) , ( -webkit-min-device-pixel-ratio: 1.3) , (
+min-device-pixel-ratio: 1.3) , ( -o-min-device-pixel-ratio: 13/10) , ( min-resolution: 1.3dppx) {
+    .icon-sound:hover {
+        background-image: url(//fanyi.bdstatic.com/static/translation/sprite/images/retina/index-sbe182eada5_be938d0.png);
+        background-position: 0 -1079px;
+        height: 17px;
+        width: 19px;
+        -moz-background-size: 122px auto;
+        background-size: 122px auto
+    }
+}
+
+.icon-repeat {
+    background-repeat: no-repeat;
+    background-image: url(//fanyi.bdstatic.com/static/translation/sprite/images/normal/index-sc413d90635_65ba9b0.png);
+    background-position: 0 -887px;
+    height: 19px;
+    width: 19px
+}
+
+@media ( min--moz-device-pixel-ratio: 1.3) , ( -o-min-device-pixel-ratio: 2.6 / 2) , ( -webkit-min-device-pixel-ratio: 1.3) , (
+min-device-pixel-ratio: 1.3) , ( -o-min-device-pixel-ratio: 13/10) , ( min-resolution: 1.3dppx) {
+    .icon-repeat {
+        background-image: url(//fanyi.bdstatic.com/static/translation/sprite/images/retina/index-sbe182eada5_be938d0.png);
+        background-position: 0 -891px;
+        height: 20px;
+        width: 20px;
+        -moz-background-size: 122px auto;
+        background-size: 122px auto
+    }
+}
+
+.icon-repeat:hover {
+    background-repeat: no-repeat;
+    background-image: url(//fanyi.bdstatic.com/static/translation/sprite/images/normal/index-sc413d90635_65ba9b0.png);
+    background-position: 0 -916px;
+    height: 19px;
+    width: 19px
+}
+
+@media ( min--moz-device-pixel-ratio: 1.3) , ( -o-min-device-pixel-ratio: 2.6 / 2) , ( -webkit-min-device-pixel-ratio: 1.3) , (
+min-device-pixel-ratio: 1.3) , ( -o-min-device-pixel-ratio: 13/10) , ( min-resolution: 1.3dppx) {
+    .icon-repeat:hover {
+        background-image: url(//fanyi.bdstatic.com/static/translation/sprite/images/retina/index-sbe182eada5_be938d0.png);
+        background-position: 0 -921px;
+        height: 20px;
+        width: 20px;
+        -moz-background-size: 122px auto;
+        background-size: 122px auto
+    }
+}
+
+.op-repeat-running .icon-repeat {
+    background: 0 0
+}
+
+.op-sound-active .icon-sound {
+    background: 0 0
+}
+
+.dictionary-wrap {
+
+}
+
+.dictionary-wrap .simple-dict .op-sound {
+    margin-right: 3px
+}
+
+.dictionary-wrap .simple-dict .op-sound-active, .dictionary-wrap .simple-dict .op-sound-active:hover {
+    margin-right: 0
+}
+
+.dictionary-wrap .simple-dict .op-repeat {
+    width: 22px;
+    height: 22px;
+    padding-left: 2px;
+    position: relative;
+    top: 1px
+}
+
+.dictionary-wrap .simple-dict .op-repeat-running {
+    background-position: 1px -1px;
+    background-image: url(//fanyi.bdstatic.com/static/translation/img/translate/simplemeans/repeat-runningn2x_834de6b.gif);
+    background-image: url(//fanyi.bdstatic.com/static/translation/img/translate/simplemeans/repeat-runningn_5241082.gif) \9;
+    -moz-background-size: 22px 22px;
+    background-size: 22px 22px;
+    background-repeat: no-repeat
+}
+
+.dictionary-wrap .dictionary-baike-img {
+    float: right;
+    width: 160px;
+    height: 114px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -moz-background-size: contain;
+    background-size: contain
+}
+
+.dictionary-wrap .dictionary-output {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.dictionary-wrap .dictionary-title {
+    overflow: hidden;
+    word-wrap: break-word
+}
+
+.dictionary-wrap .strong {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    line-height: 22px;
+    margin-right: 10px
+}
+
+.dictionary-wrap .dictionary-spell {
+    margin-top: 9px;
+    overflow: hidden
+}
+
+.dictionary-wrap .dictionary-spell .phonetic-transcription {
+    font-size: 14px;
+    display: inline-block
+}
+
+.dictionary-wrap .dictionary-spell .phonetic-transcription span, .dictionary-wrap .dictionary-spell .phonetic-transcription b,
+.dictionary-wrap .dictionary-spell .phonetic-transcription a {
+    display: inline-block;
+    vertical-align: middle
+}
+
+.dictionary-wrap .dictionary-spell .phonetic-transcription span {
+    margin-right: 5px;
+    font: 700 14px Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+.dictionary-wrap .dictionary-spell .phonetic-transcription b {
+    display: inline;
+    font-weight: 400;
+    font: 14px Arial;
+    color: #333;
+    vertical-align: middle;
+    line-height: 22px
+}
+
+.dictionary-wrap .dictionary-spell .phonetic-transcription:first-child {
+    margin-right: 20px
+}
+
+.dictionary-wrap .dictionary-comment {
+    margin-top: 7px;
+    margin-bottom: 14px
+}
+
+.dictionary-wrap .dictionary-comment p {
+    font-size: 14px;
+    font-family: Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    line-height: 22px;
+    color: #333
+}
+
+.dictionary-wrap .dictionary-comment p a:hover {
+    color: #00c;
+    text-decoration: none
+}
+
+.dictionary-wrap .dictionary-comment p b {
+    float: left;
+    font: 12px/22px Arial;
+    color: #888683
+}
+
+.dictionary-wrap .dictionary-comment p b ~ .dict-comment-mean {
+    padding-left: 30px
+}
+
+.dictionary-wrap .dictionary-comment p .dict-comment-mean {
+    display: block;
+    font: 14px/22px Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif
+}
+
+.dictionary-wrap .dictionary-comment p .dict-comment-mean .dict-margin {
+    margin-right: 10px
+}
+
+.dictionary-wrap .dictionary-comment p .dict-second-trans {
+    text-decoration: underline;
+    color: #4395ff
+}
+
+.dictionary-wrap .dictionary-comment p .dict-second-trans:hover {
+    text-decoration: underline;
+    color: #1d72f0
+}
+
+.dictionary-wrap .dictionary-exchange {
+    margin-top: 20px;
+    line-height: 22px;
+    overflow: hidden
+}
+
+.dictionary-wrap .dictionary-exchange .word-can-trans {
+    margin-right: 15px;
+    font-size: 13px;
+    font-family: Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    display: inline-block
+}
+
+.dictionary-wrap .dictionary-exchange span a {
+    margin-right: 5px;
+    color: #4395ff;
+    text-decoration: underline
+}
+
+.dictionary-wrap .dictionary-exchange > p {
+    display: inline-block;
+    float: left
+}
+
+.dictionary-wrap .dictionary-exchange.dictionary-no-exchange {
+    display: none
+}
+
+.dictionary-wrap .dictionary-exchange.dictionary-no-exchange ~ .dictionary-derivative {
+    margin-top: 20px
+}
+
+.dictionary-wrap .dictionary-derivative {
+    line-height: 23px;
+    font-size: 13px
+}
+
+.dictionary-wrap .dictionary-derivative .dr-item {
+    display: inline-block;
+    margin-right: 13px
+}
+
+.dictionary-wrap .dictionary-derivative .dr-item span {
+    margin-right: 4px
+}
+
+.dictionary-wrap .dictionary-derivative .dr-item .dr-p {
+    color: #999;
+    margin-left: -1px
+}
+
+.dictionary-wrap .dictionary-memory {
+    line-height: 23px;
+    font-size: 13px
+}
+
+.dictionary-wrap .dictionary-tags li {
+    display: inline-block;
+    color: #999;
+    font-size: 12px;
+    padding: 0 6px;
+    background: #f2f2f2;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    height: 20px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 20px;
+    margin-right: 12px
+}
+
+.dictionary-wrap.dictionary-wrap-f {
+    position: relative;
+    zoom: 1;
+    border: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    margin-top: 32px;
+    margin-bottom: 17px
+}
+
+.dictionary-wrap.dictionary-wrap-f .simple-dict-f {
+    border: 1px solid #eee;
+    padding: 17px 31px 21px;
+    background-color: #fff
+}
+
+.dictionary-wrap.dictionary-wrap-f .simple-dict-f.simple-dict-f-nimg {
+    min-height: 90px
+}
+
+.dictionary-wrap.dictionary-wrap-f .simple-dict-f.simple-dict-f-wi .dictionary-baike-img {
+    margin: 2px 0 2px 31px
+}
+
+.dictionary-wrap.dictionary-wrap-f .simple-dict-f.simple-dict-f-wi::before {
+    display: inline-block;
+    height: 100%;
+    width: .01%
+}
+
+.dictionary-wrap.dictionary-wrap-f .simple-dict-f .dictionary-comment {
+    margin-bottom: 0
+}
+
+.dictionary-wrap.dictionary-wrap-f .simple-dict-f .dictionary-bottom {
+    margin-top: 13px;
+    padding-top: 13px;
+    border-top: 1px solid #eee
+}
+
+.dictionary-wrap.dictionary-wrap-f .simple-dict-f .dictionary-bottom .dictionary-memory + .dictionary-tags {
+    margin-top: 9px
+}
+
+.dictionary-wrap.dictionary-wrap-nf {
+
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf {
+
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf .dictionary-output {
+    margin-top: 17px
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf .dictionary-title .strong {
+    font-size: 14px
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf .dictionary-exchange {
+    margin-bottom: 3px
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf.simple-dict-nf-wi .dictionary-baike-img {
+    margin: 16px 18px 4px 31px
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf.simple-dict-nf-wi .dictionary-baike-img + .dictionary-output {
+    margin-top: 14px
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf.simple-dict-ztoe .output-bd .dictionary-comment {
+    margin-top: 9px
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf.simple-dict-ztoe .output-bd .dictionary-output {
+    margin-top: 14px
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf.simple-dict-ztoe .output-bd .dictionary-output:last-child .dictionary-comment {
+    margin-bottom: 0
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf .dictionary-bottom {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0
+}
+
+.dictionary-wrap.dictionary-wrap-nf .simple-dict-nf .dictionary-bottom .dictionary-tags {
+    margin-top: 9px
+}
+
+.dictionary-wrap .simple-dict-ztoe .dictionary-spell {
+    float: left;
+    margin-top: 0
+}
+
+.dictionary-wrap .simple-dict-ztoe .phonetic-transcription span {
+    font: 400 14px/22px Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei",
+    sans-serif
+}
+
+.dictionary-wrap .simple-dict-ztoe .dictionary-title .strong {
+    float: left
+}
+
+.dictionary-wrap .simple-dict-ztoe .dictionary-comment {
+    padding-top: 0
+}
+
+.dictionary-wrap .simple-dict-ztoe .dictionary-comment b {
+    margin-right: 10px;
+    font: 12px/22px Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    color: #888683
+}
+
+.dictionary-wrap .simple-dict-ztoe .dictionary-comment .dict-comment-mean {
+    font: 14px/22px Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    color: #333
+}

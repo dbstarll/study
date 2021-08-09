@@ -30,7 +30,7 @@
 
   <modules>
     <module>module</module>
-    <!--    <module>boot</module>-->
+    <module>boot</module>
   </modules>
 
   <dependencyManagement>

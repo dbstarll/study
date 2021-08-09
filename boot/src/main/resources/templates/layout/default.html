@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <include th:include="layout/head-meta :: meta"/>
+        <include th:include="layout/head-jquery :: jquery"/>
+        <include th:include="layout/head-jquery-ui :: jquery-ui"/>
+        <include th:include="layout/head-bootstrap :: bootstrap"/>
+        <include th:include="layout/head-bootstrap-table :: bootstrap-table"/>
+        <include th:include="layout/head-bootstrap-datetimepicker :: bootstrap-datetimepicker"/>
+        <include th:include="layout/head-study :: study"/>
+        <style type="text/css">
+            body {
+                padding-top: 55px;
+                padding-bottom: 45px;
+            }
+        </style>
+    </head>
+    <body>
+        <span id="contextPath" th:data-context-path="@{/}" class='hidden'></span>
+        <header th:include="layout/header :: header"/>
+        <div layout:fragment="content" class="container-fluid"/>
+        <footer th:include="layout/footer :: footer"/>
+    </body>
+</html>
